@@ -5,6 +5,7 @@
     { "path": "./tsconfig.cloudflare.json" }
   ],
   "compilerOptions": {
+    "baseUrl": ".",
     "checkJs": true,
     "verbatimModuleSyntax": true,
     "skipLibCheck": true,
@@ -13,6 +14,9 @@
     "types": [
         "./worker-configuration.d.ts",
         "node"
-    ]
+    ],
+    "paths": {
+    "@/*": ["app/*"]
+  }
   }
 }
