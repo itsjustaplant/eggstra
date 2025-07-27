@@ -18,10 +18,14 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export async function loader({ context }: Route.LoaderArgs) {
-  const { results } = await context.cloudflare.env.DB.prepare(
-    `SELECT * FROM DailyData ORDER BY Date DESC LIMIT 7`
-  ).all<TDailyData>();
-  return { results };
+  try {
+    const { results } = await context.cloudflare.env.DB.prepare(
+      `SELECT * FROM DailyData ORDER BY Date DESC LIMIT 7`
+    ).all<TDailyData>();
+    return { results };
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 export async function action({ request, context }: Route.ActionArgs) {
@@ -65,12 +69,12 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export default function Home({ loaderData }: Route.ComponentProps) {
-  const { results } = loaderData;
-  const proteinData = results.map((result) => ({
+  const { results = []} = loaderData || {};
+  const proteinData = results?.map((result) => ({
     date: result.date,
     value: result.protein,
   }));
-  const waterData = results.map((result) => ({
+  const waterData = results?.map((result) => ({
     date: result.date,
     value: result.water,
   }));
