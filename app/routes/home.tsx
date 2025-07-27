@@ -89,6 +89,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           title={TEXTS["analytics-protein-title"]}
           description={TEXTS["analytics-protein-description"]}
           tooltipLabel={TEXTS["analytics-protein-tooltip-label"]}
+          unit={TEXTS["analytics-protein-unit"]}
           colorGetter={getColorForProtein}
         />
         <AnalysisCard
@@ -97,6 +98,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
           title={TEXTS["analytics-water-title"]}
           description={TEXTS["analytics-water-description"]}
           tooltipLabel={TEXTS["analytics-water-tooltip-label"]}
+          unit={TEXTS["analytics-water-unit"]}
           colorGetter={getColorForWater}
         />
       </div>

@@ -7,8 +7,6 @@ import {
   CardHeader,
   CardTitle,
   ChartContainer,
-  ChartTooltip,
-  ChartTooltipContent,
 } from "~/components";
 import { TEXTS } from "~/texts";
 
@@ -22,12 +20,19 @@ type TAnalysisCardProps = {
   title: string;
   description: string;
   tooltipLabel: string;
+  unit: string;
   colorGetter: (value: number) => string;
   data: Array<TData>;
 };
 function AnalysisCard(props: TAnalysisCardProps) {
-  const { chartConfig, title, description, tooltipLabel, colorGetter, data } =
-    props;
+  const {
+    chartConfig,
+    title,
+    description,
+    unit,
+    colorGetter,
+    data,
+  } = props;
 
   return (
     <Card className="@container/card w-full border-none shadow-none bg-background">
@@ -67,47 +72,19 @@ function AnalysisCard(props: TAnalysisCardProps) {
                 tickMargin={8}
                 minTickGap={20}
               />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    className="w-[150px]"
-                    nameKey="value"
-                    labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      });
-                    }}
-                    formatter={(v) => (
-                      <div className="flex items-center gap-1.5 w-full">
-                        <div
-                          className="w-3 h-3 rounded-xs"
-                          style={{
-                            backgroundColor: `var(--${colorGetter(
-                              v as number
-                            )})`,
-                          }}
-                        />
-                        <span>{tooltipLabel}</span>
-                        <span className="ml-auto">{v}g</span>
-                      </div>
-                    )}
-                  />
-                }
-              />
               <Bar
                 dataKey="value"
                 radius={4}
                 label={({ x, y, width, value }) => {
+                  if (!value) return <></>;
                   return (
                     <text
                       x={x + width / 2}
-                      y={y}
-                      fill="var(--muted-foreground)"
+                      y={y + 24}
+                      fill="var(--foreground)"
                       textAnchor="middle"
                       dy={-6}
-                    >{`${value}g`}</text>
+                    >{`${value}${unit}`}</text>
                   );
                 }}
               >
@@ -122,22 +99,6 @@ function AnalysisCard(props: TAnalysisCardProps) {
           )}
         </ChartContainer>
       </CardContent>
-      {/*
-<CardFooter className="border-t px-1">
-				<div className="text-sm">
-					{TEXTS["analytics-summary"].map((text, index) => {
-						if (index === 1) {
-							return (
-								<span className="font-semibold underline" key={text}>
-									{text.replaceAll("{}", total.toLocaleString())}
-								</span>
-							);
-						}
-						return text;
-					})}
-				</div>
-			</CardFooter>
-        */}
     </Card>
   );
 }
