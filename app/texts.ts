@@ -10,7 +10,8 @@ const TEXTS = {
   "analytics-water-summary": ["You had ", "{}mL water ", "intake for the last week."],
   "analytics-water-tooltip-label": "Water (mL)",
   "dialog-title": "Log your protein/water intake.",
-  "dialog-action": "Save"
+  "dialog-action": "Save",
+  "no-data": "NO DATA"
 };
 
 export { TEXTS };
