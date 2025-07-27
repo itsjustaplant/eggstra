@@ -56,7 +56,7 @@ export async function action({ request, context }: Route.ActionArgs) {
     }
 
     return { status: 200 };
-  } catch (e) {
+  } catch (_) {
     return { status: 400 };
   }
 }

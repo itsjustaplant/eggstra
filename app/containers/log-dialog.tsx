@@ -96,7 +96,7 @@ const buttonsMap: Array<TButton> = [
   },
 ];
 
-function LogDialog(props: React.PropsWithChildren<{}>) {
+function LogDialog(props: React.PropsWithChildren<unknown>) {
   const { children } = props;
   const [selectedItemId, setSelectedItemId] = useState(0);
   const [value, setValue] = useState("");
@@ -137,7 +137,7 @@ function LogDialog(props: React.PropsWithChildren<{}>) {
           <span>{buttonsMap[selectedItemId].label}</span>
           <Button
             disabled={!value}
-            onClick={async () =>
+            onClick={async (e) => {
               submit(
                 {
                   protein:
@@ -148,8 +148,10 @@ function LogDialog(props: React.PropsWithChildren<{}>) {
                     (buttonsMap[selectedItemId]?.waterMultiplier || 0),
                 },
                 { method: "POST" }
-              )
-            }
+              );
+              e.preventDefault();
+              e.stopPropagation();
+            }}
             className="cursor-pointer ml-auto disabled:cursor-not-allowed"
           >
             {TEXTS["dialog-action"]}

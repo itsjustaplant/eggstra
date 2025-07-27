@@ -1,5 +1,5 @@
 import { Bar, BarChart, CartesianGrid, Cell, XAxis, YAxis } from "recharts";
-import { Button } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button";
 import {
   Card,
   CardAction,
@@ -46,6 +46,7 @@ export {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
+  buttonVariants,
 };
 
 export type { ChartConfig };

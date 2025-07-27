@@ -25,14 +25,7 @@ type TAnalysisCardProps = {
   data: Array<TData>;
 };
 function AnalysisCard(props: TAnalysisCardProps) {
-  const {
-    chartConfig,
-    title,
-    description,
-    unit,
-    colorGetter,
-    data,
-  } = props;
+  const { chartConfig, title, description, unit, colorGetter, data } = props;
 
   return (
     <Card className="@container/card w-full border-none shadow-none bg-background">
@@ -76,11 +69,13 @@ function AnalysisCard(props: TAnalysisCardProps) {
                 dataKey="value"
                 radius={4}
                 label={({ x, y, width, value }) => {
-                  if (!value) return <></>;
+                  // TODO: this is bad find a better way to check if it fits or not
+                  if (!value || value < 10) return <span />;
                   return (
                     <text
+                      className="font-bold text-sm"
                       x={x + width / 2}
-                      y={y + 24}
+                      y={y + 30}
                       fill="var(--foreground)"
                       textAnchor="middle"
                       dy={-6}
