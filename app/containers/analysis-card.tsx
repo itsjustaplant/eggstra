@@ -51,12 +51,15 @@ function AnalysisCard(props: TAnalysisCardProps) {
                 axisLine={false}
                 tickMargin={8}
                 minTickGap={20}
-                tickFormatter={(value) => {
-                  const date = new Date(value);
-                  return date.toLocaleDateString("en-US", {
-                    day: "numeric",
-                  });
-                }}
+                // TODO: tick formatter doesn't work on ios
+                /*
+                  tickFormatter={(value) => {
+                    const date = new Date(value);
+                    return date.toLocaleDateString("en-US", {
+                      day: "numeric",
+                    });
+                  }}
+                */
               />
               <YAxis
                 dataKey="value"
