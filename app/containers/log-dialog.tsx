@@ -137,8 +137,8 @@ function LogDialog(props: React.PropsWithChildren<{}>) {
           <span>{buttonsMap[selectedItemId].label}</span>
           <Button
             disabled={!value}
-            onClick={async () => {
-              const result = await submit(
+            onClick={async () =>
+              submit(
                 {
                   protein:
                     Number(value) *
@@ -149,9 +149,6 @@ function LogDialog(props: React.PropsWithChildren<{}>) {
                 },
                 { method: "POST" }
               )
-              console.log({result})
-            }
-                
             }
             className="cursor-pointer ml-auto disabled:cursor-not-allowed"
           >
