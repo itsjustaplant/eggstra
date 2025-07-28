@@ -41,7 +41,7 @@ export default {
 
       let text = TEXTS["email-failure"];
 
-      if (proteinDiff <= 0 && waterDiff <= 0) {
+      if (proteinDiff >= 0 && waterDiff >= 0) {
         text = TEXTS["email-success"].replace("{protein}", `${protein}`).replace("{water}", `${water}`);
       }
 
