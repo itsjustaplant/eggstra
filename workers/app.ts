@@ -42,7 +42,7 @@ export default {
       let text = TEXTS["email-failure"];
 
       if (proteinDiff >= 0 && waterDiff >= 0) {
-        text = TEXTS["email-success"].replace("{protein}", `${protein}`).replace("{water}", `${water}`);
+        text = TEXTS["email-success"];
       }
 
       const response = await fetch("https://api.resend.com/emails", {
@@ -93,7 +93,7 @@ export default {
                                 <p
                                   style="color:rgb(31,41,55);font-size:20px;line-height:28px;font-weight:500;margin:0px;margin-bottom:0px;margin-top:0px;margin-left:0px;margin-right:0px">
                                   You&#x27;ve got
-                                  <!-- -->${text}<!-- -->
+                                  <!-- -->${text.replace("{protein}", `${protein}`).replace("{water}", `${water}`)}<!-- -->
                                 </p>
                               </td>
                             </tr>
