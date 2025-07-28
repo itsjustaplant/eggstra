@@ -92,7 +92,6 @@ export default {
                                 </div>
                                 <p
                                   style="color:rgb(31,41,55);font-size:20px;line-height:28px;font-weight:500;margin:0px;margin-bottom:0px;margin-top:0px;margin-left:0px;margin-right:0px">
-                                  You&#x27;ve got
                                   <!-- -->${text.replace("{protein}", `${protein}`).replace("{water}", `${water}`)}<!-- -->
                                 </p>
                               </td>
