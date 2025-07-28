@@ -1,23 +1,28 @@
 import {
+  PROTEIN_COLOR_MAP,
   PROTEIN_MULTIPLIER_MAP,
+  WATER_COLOR_MAP,
   WATER_MULTIPLIER_MAP,
   WEIGHT,
 } from "./constants";
 
 function getColorForProtein(intake: number): string {
-  if (intake > WEIGHT * PROTEIN_MULTIPLIER_MAP.gain) return "chart-5";
-  if (intake >= WEIGHT * PROTEIN_MULTIPLIER_MAP.maintanence) return "chart-6";
-  if (intake >= WEIGHT * PROTEIN_MULTIPLIER_MAP.minimum) return "chart-3";
-  if (intake > 0) return "ring";
-  return "chart-3";
+  if (intake > WEIGHT * PROTEIN_MULTIPLIER_MAP.gain)
+    return PROTEIN_COLOR_MAP.gain;
+  if (intake >= WEIGHT * PROTEIN_MULTIPLIER_MAP.maintanence)
+    return PROTEIN_COLOR_MAP.maintanence;
+  if (intake >= WEIGHT * PROTEIN_MULTIPLIER_MAP.minimum)
+    return PROTEIN_COLOR_MAP.minimum;
+  return PROTEIN_COLOR_MAP.default;
 }
 
 function getColorForWater(intake: number): string {
-  if (intake > WEIGHT * WATER_MULTIPLIER_MAP.gain) return "water-gain";
+  if (intake > WEIGHT * WATER_MULTIPLIER_MAP.gain) return WATER_COLOR_MAP.gain;
   if (intake >= WEIGHT * WATER_MULTIPLIER_MAP.maintanence)
-    return "water-maintanence";
-  if (intake >= WEIGHT * WATER_MULTIPLIER_MAP.minimum) return "water-minimum";
-  return "water-default";
+    return WATER_COLOR_MAP.maintanence;
+  if (intake >= WEIGHT * WATER_MULTIPLIER_MAP.minimum)
+    return WATER_COLOR_MAP.minimum;
+  return WATER_COLOR_MAP.default;
 }
 
 function getDate() {
@@ -30,4 +35,8 @@ function getDate() {
   return `${year}-${month}-${day}`;
 }
 
-export { getColorForProtein, getColorForWater, getDate };
+function capitalizeFirstLetter(str: string) {
+  return str[0].toUpperCase() + str.slice(1);
+}
+
+export { getColorForProtein, getColorForWater, getDate, capitalizeFirstLetter };

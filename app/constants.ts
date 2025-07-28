@@ -12,4 +12,24 @@ const WATER_MULTIPLIER_MAP = {
   gain: 48,
 };
 
-export { WEIGHT, PROTEIN_MULTIPLIER_MAP, WATER_MULTIPLIER_MAP };
+const PROTEIN_COLOR_MAP = {
+  gain: "protein-gain",
+  maintanence: "protein-maintanence",
+  minimum: "protein-minimum",
+  default: "protein-default",
+};
+
+const WATER_COLOR_MAP = {
+  gain: "water-gain",
+  maintanence: "water-maintanence",
+  minimum: "water-minimum",
+  default: "water-default",
+};
+
+export {
+  WEIGHT,
+  PROTEIN_MULTIPLIER_MAP,
+  WATER_MULTIPLIER_MAP,
+  PROTEIN_COLOR_MAP,
+  WATER_COLOR_MAP,
+};

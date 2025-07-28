@@ -4,11 +4,16 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
   ChartContainer,
 } from "~/components";
 import { TEXTS } from "~/texts";
+import { EAnalysisType, type TLevel } from "~/types";
+import { capitalizeFirstLetter } from "~/utils";
+
+const chartConfig = {} satisfies ChartConfig;
 
 type TData = {
   date: string;
@@ -16,17 +21,18 @@ type TData = {
 };
 
 type TAnalysisCardProps = {
-  chartConfig: ChartConfig;
   title: string;
   description: string;
   tooltipLabel: string;
   unit: string;
   colorGetter: (value: number) => string;
   data: Array<TData>;
+  colorMap: Record<TLevel, string>;
+  type: EAnalysisType;
 };
 function AnalysisCard(props: TAnalysisCardProps) {
-  const { chartConfig, title, description, unit, colorGetter, data } = props;
-
+  const { title, description, unit, colorGetter, data, colorMap, type } = props;
+  console.log(data);
   return (
     <Card className="@container/card w-full border-none shadow-none bg-background">
       <CardHeader className="flex flex-col border-b @md/card:grid px-0">
@@ -82,7 +88,11 @@ function AnalysisCard(props: TAnalysisCardProps) {
                       fill="var(--foreground)"
                       textAnchor="middle"
                       dy={-6}
-                    >{`${value}${unit}`}</text>
+                    >
+                      {type === EAnalysisType.PROTEIN
+                        ? `${value?.toFixed()}${unit}`
+                        : `${(value / 1000)?.toFixed(1)}${unit}`}
+                    </text>
                   );
                 }}
               >
@@ -97,6 +107,17 @@ function AnalysisCard(props: TAnalysisCardProps) {
           )}
         </ChartContainer>
       </CardContent>
+      <CardFooter className="w-full flex justify-between items-center px-0">
+        {Object.entries(colorMap).map(([k, v]) => (
+          <div key={k} className="flex gap-1 items-center">
+            <div
+              className="w-4 h-4 rounded"
+              style={{ backgroundColor: `var(--${v})` }}
+            ></div>
+            <span>{capitalizeFirstLetter(k)}</span>
+          </div>
+        ))}
+      </CardFooter>
     </Card>
   );
 }
