@@ -1,7 +1,7 @@
 import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import { useSubmit } from "react-router";
+import { useFetcher } from "react-router";
 import {
   Button,
   Dialog,
@@ -101,7 +101,7 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
   const { children } = props;
   const [selectedItemId, setSelectedItemId] = useState(0);
   const [value, setValue] = useState("");
-  const submit = useSubmit();
+  const fetcher = useFetcher();
 
   return (
     <Dialog>
@@ -142,7 +142,7 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
             <Button
               disabled={!value}
               onClick={() =>
-                submit(
+                fetcher.submit(
                   {
                     protein:
                       Number(value) *
