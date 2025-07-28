@@ -32,14 +32,14 @@ type TAnalysisCardProps = {
 };
 function AnalysisCard(props: TAnalysisCardProps) {
   const { title, description, unit, colorGetter, data, colorMap, type } = props;
-  console.log(data);
+
   return (
-    <Card className="@container/card w-full border-none shadow-none bg-background">
-      <CardHeader className="flex flex-col border-b @md/card:grid px-0">
+    <Card className="@container/card w-full border-none shadow-none bg-background pt-1">
+      <CardHeader className="flex flex-col border-b @md/card:grid px-0 !pb-3">
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent className="px-0 -ml-4 -mr-3">
+      <CardContent className="px-0 -ml-7 -mr-2">
         <ChartContainer
           config={chartConfig}
           className="aspect-auto md:h-[420px] h-[360px] w-full"
@@ -57,15 +57,10 @@ function AnalysisCard(props: TAnalysisCardProps) {
                 axisLine={false}
                 tickMargin={8}
                 minTickGap={20}
-                // TODO: tick formatter doesn't work on ios
-                /*
-                  tickFormatter={(value) => {
-                    const date = new Date(value);
-                    return date.toLocaleDateString("en-US", {
-                      day: "numeric",
-                    });
-                  }}
-                */
+                tickFormatter={(value) => {
+                  const [, month, day] = value.split("-");
+                  return `${month}-${day}`;
+                }}
               />
               <YAxis
                 dataKey="value"
@@ -107,7 +102,7 @@ function AnalysisCard(props: TAnalysisCardProps) {
           )}
         </ChartContainer>
       </CardContent>
-      <CardFooter className="w-full flex justify-between items-center px-0">
+      <CardFooter className="w-full flex justify-between items-center px-2">
         {Object.entries(colorMap).map(([k, v]) => (
           <div key={k} className="flex gap-1 items-center">
             <div
