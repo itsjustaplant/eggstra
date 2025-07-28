@@ -5,6 +5,7 @@ import { useSubmit } from "react-router";
 import {
   Button,
   Dialog,
+  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -104,7 +105,9 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
 
   return (
     <Dialog>
-      <DialogTrigger className="ml-auto">{children}</DialogTrigger>
+      <DialogTrigger asChild className="ml-auto">
+        {children}
+      </DialogTrigger>
       <DialogContent>
         <DialogHeader className="pb-2 border-b">
           <DialogTitle>{TEXTS["dialog-title"]}</DialogTitle>
@@ -135,27 +138,27 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
             onChange={(e) => setValue(e?.target?.value)}
           />
           <span>{buttonsMap[selectedItemId].label}</span>
-          <Button
-            disabled={!value}
-            onClick={async (e) => {
-              submit(
-                {
-                  protein:
-                    Number(value) *
-                    buttonsMap[selectedItemId].proteinMultiplier,
-                  water:
-                    Number(value) *
-                    (buttonsMap[selectedItemId]?.waterMultiplier || 0),
-                },
-                { method: "POST" }
-              );
-              e.preventDefault();
-              e.stopPropagation();
-            }}
-            className="cursor-pointer ml-auto disabled:cursor-not-allowed"
-          >
-            {TEXTS["dialog-action"]}
-          </Button>
+          <DialogClose asChild>
+            <Button
+              disabled={!value}
+              onClick={() =>
+                submit(
+                  {
+                    protein:
+                      Number(value) *
+                      buttonsMap[selectedItemId].proteinMultiplier,
+                    water:
+                      Number(value) *
+                      (buttonsMap[selectedItemId]?.waterMultiplier || 0),
+                  },
+                  { method: "POST" }
+                )
+              }
+              className="cursor-pointer ml-auto disabled:cursor-not-allowed"
+            >
+              {TEXTS["dialog-action"]}
+            </Button>
+          </DialogClose>
         </div>
       </DialogContent>
     </Dialog>
