@@ -69,7 +69,7 @@ const buttonsMap: Array<TButton> = [
     icon: "bottle-water",
     text: "Water",
     key: "water",
-    label: "ml",
+    label: "mL",
     proteinMultiplier: 0,
     waterMultiplier: 1,
   },
@@ -77,7 +77,7 @@ const buttonsMap: Array<TButton> = [
     icon: "glass-water",
     text: "Milk",
     key: "milk",
-    label: "ml",
+    label: "mL",
     proteinMultiplier: 0.03,
   },
   {
