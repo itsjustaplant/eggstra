@@ -13,7 +13,9 @@ const TEXTS = {
   "analytics-water-unit": "mL",
   "dialog-title": "Log your protein/water intake.",
   "dialog-action": "Save",
-  "no-data": "NO DATA"
+  "no-data": "NO DATA",
+  "email-success": "Good job! You took {protein}g of protein and {water}mL of water.",
+  "email-failure": "You took {protein}g of protein and {water}mL but that's not enough!"
 };
 
 export { TEXTS };
