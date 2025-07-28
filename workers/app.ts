@@ -42,7 +42,7 @@ export default {
       let text = TEXTS["email-failure"];
 
       if (proteinDiff <= 0 && waterDiff <= 0) {
-        text = TEXTS["email-success"];
+        text = TEXTS["email-success"].replace("{protein}", `${protein}`).replace("{water}", `${water}`);
       }
 
       const response = await fetch("https://api.resend.com/emails", {
