@@ -29,7 +29,7 @@ const buttonsMap: Array<TButton> = [
     text: "Chicken",
     key: "chicken",
     label: "g",
-    proteinMultiplier: 0.31,
+    proteinMultiplier: 0.24,
   },
   {
     icon: "cow",
@@ -138,27 +138,25 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
             onChange={(e) => setValue(e?.target?.value)}
           />
           <span>{buttonsMap[selectedItemId].label}</span>
-          <DialogClose asChild>
-            <Button
-              disabled={!value}
-              onClick={() =>
-                fetcher.submit(
-                  {
-                    protein:
-                      Number(value) *
-                      buttonsMap[selectedItemId].proteinMultiplier,
-                    water:
-                      Number(value) *
-                      (buttonsMap[selectedItemId]?.waterMultiplier || 0),
-                  },
-                  { method: "POST" }
-                )
-              }
-              className="cursor-pointer ml-auto disabled:cursor-not-allowed"
-            >
-              {TEXTS["dialog-action"]}
-            </Button>
-          </DialogClose>
+          <Button
+            disabled={!value}
+            onClick={() =>
+              fetcher.submit(
+                {
+                  protein:
+                    Number(value) *
+                    buttonsMap[selectedItemId].proteinMultiplier,
+                  water:
+                    Number(value) *
+                    (buttonsMap[selectedItemId]?.waterMultiplier || 0),
+                },
+                { method: "POST" }
+              )
+            }
+            className="cursor-pointer ml-auto disabled:cursor-not-allowed"
+          >
+            {TEXTS["dialog-action"]}
+          </Button>
         </div>
       </DialogContent>
     </Dialog>
