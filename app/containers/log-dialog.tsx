@@ -1,11 +1,10 @@
-import type { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useFetcher } from "react-router";
+import { toast } from "sonner";
 import {
   Button,
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -13,95 +12,15 @@ import {
   DialogTrigger,
   Input,
 } from "~/components/";
+import { ITEM_MAP } from "~/constants";
 import { TEXTS } from "~/texts";
-
-type TButton = {
-  icon: IconProp;
-  text: string;
-  key: string;
-  label: string;
-  proteinMultiplier: number;
-  waterMultiplier?: number;
-};
-const buttonsMap: Array<TButton> = [
-  {
-    icon: "drumstick-bite",
-    text: "Chicken",
-    key: "chicken",
-    label: "g",
-    proteinMultiplier: 0.24,
-  },
-  {
-    icon: "cow",
-    text: "Meat",
-    key: "meat",
-    label: "g",
-    proteinMultiplier: 0.26,
-  },
-  {
-    icon: "egg",
-    text: "Egg",
-    key: "egg",
-    label: "piece",
-    proteinMultiplier: 6,
-  },
-  {
-    icon: "bacon",
-    text: "Smoked Turkey",
-    key: "smoked-turkey",
-    label: "piece",
-    proteinMultiplier: 8.5,
-  },
-  {
-    icon: "fish",
-    text: "Salmon",
-    key: "salmon",
-    label: "g",
-    proteinMultiplier: 0.2,
-  },
-  {
-    icon: "fish-fins",
-    text: "Tuna",
-    key: "tuna",
-    label: "g",
-    proteinMultiplier: 0.25,
-  },
-  {
-    icon: "bottle-water",
-    text: "Water",
-    key: "water",
-    label: "mL",
-    proteinMultiplier: 0,
-    waterMultiplier: 1,
-  },
-  {
-    icon: "glass-water",
-    text: "Milk",
-    key: "milk",
-    label: "mL",
-    proteinMultiplier: 0.03,
-  },
-  {
-    icon: "dna",
-    text: "WHEY",
-    key: "whey",
-    label: "scoop",
-    proteinMultiplier: 22,
-  },
-  {
-    icon: "gear",
-    text: "Custom",
-    key: "custom",
-    label: "g",
-    proteinMultiplier: 1,
-  },
-];
 
 function LogDialog(props: React.PropsWithChildren<unknown>) {
   const { children } = props;
   const [selectedItemId, setSelectedItemId] = useState(0);
   const [value, setValue] = useState("");
   const fetcher = useFetcher();
+  const selectedItem = ITEM_MAP[selectedItemId];
 
   return (
     <Dialog>
@@ -116,17 +35,17 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
           Please choose intake type and enter the amount of intake you took.
         </DialogDescription>
         <div className="flex gap-2 flex-wrap">
-          {buttonsMap.map((button, index) => (
+          {ITEM_MAP.map((item, index) => (
             <Button
               onClick={() => {
                 setSelectedItemId(index);
               }}
               className="cursor-pointer"
               variant={index === selectedItemId ? "default" : "secondary"}
-              key={button.icon as string}
+              key={item.icon as string}
             >
-              <span>{button.text}</span>
-              <FontAwesomeIcon size="lg" icon={button.icon} />
+              <span>{item.text}</span>
+              <FontAwesomeIcon size="lg" icon={item.icon} />
             </Button>
           ))}
         </div>
@@ -137,22 +56,31 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
             type="number"
             onChange={(e) => setValue(e?.target?.value)}
           />
-          <span>{buttonsMap[selectedItemId].label}</span>
+          <span>{selectedItem.label}</span>
           <Button
             disabled={!value}
-            onClick={() =>
+            onClick={() => {
+              const protein = (
+                Number(value) * selectedItem.proteinMultiplier
+              )?.toFixed(1);
+              const water =
+                Number(value) * (selectedItem?.waterMultiplier || 0);
               fetcher.submit(
                 {
-                  protein:
-                    Number(value) *
-                    buttonsMap[selectedItemId].proteinMultiplier,
-                  water:
-                    Number(value) *
-                    (buttonsMap[selectedItemId]?.waterMultiplier || 0),
+                  protein,
+                  water,
                 },
                 { method: "POST" }
-              )
-            }
+              );
+              toast(
+                <div className="flex gap-2 items-center">
+                  <FontAwesomeIcon size="2xl" icon={selectedItem.icon} />
+                  {water
+                    ? TEXTS["toast-water"].replace("{water}", water.toString())
+                    : TEXTS["toast-protein"].replace("{protein}", protein)}
+                </div>
+              );
+            }}
             className="cursor-pointer ml-auto disabled:cursor-not-allowed"
           >
             {TEXTS["dialog-action"]}

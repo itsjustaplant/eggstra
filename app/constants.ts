@@ -1,3 +1,5 @@
+import type { TItem } from "./types";
+
 const WEIGHT = 70;
 
 const PROTEIN_MULTIPLIER_MAP = {
@@ -26,10 +28,85 @@ const WATER_COLOR_MAP = {
   default: "water-default",
 };
 
+const ITEM_MAP: Array<TItem> = [
+  {
+    icon: "drumstick-bite",
+    text: "Chicken",
+    key: "chicken",
+    label: "g",
+    proteinMultiplier: 0.24,
+  },
+  {
+    icon: "cow",
+    text: "Meat",
+    key: "meat",
+    label: "g",
+    proteinMultiplier: 0.26,
+  },
+  {
+    icon: "egg",
+    text: "Egg",
+    key: "egg",
+    label: "piece",
+    proteinMultiplier: 6,
+  },
+  {
+    icon: "bacon",
+    text: "Smoked Turkey",
+    key: "smoked-turkey",
+    label: "piece",
+    proteinMultiplier: 8.5,
+  },
+  {
+    icon: "fish",
+    text: "Salmon",
+    key: "salmon",
+    label: "g",
+    proteinMultiplier: 0.2,
+  },
+  {
+    icon: "fish-fins",
+    text: "Tuna",
+    key: "tuna",
+    label: "g",
+    proteinMultiplier: 0.25,
+  },
+  {
+    icon: "bottle-water",
+    text: "Water",
+    key: "water",
+    label: "mL",
+    proteinMultiplier: 0,
+    waterMultiplier: 1,
+  },
+  {
+    icon: "glass-water",
+    text: "Milk",
+    key: "milk",
+    label: "mL",
+    proteinMultiplier: 0.03,
+  },
+  {
+    icon: "dna",
+    text: "WHEY",
+    key: "whey",
+    label: "scoop",
+    proteinMultiplier: 22,
+  },
+  {
+    icon: "gear",
+    text: "Custom",
+    key: "custom",
+    label: "g",
+    proteinMultiplier: 1,
+  },
+];
+
 export {
   WEIGHT,
   PROTEIN_MULTIPLIER_MAP,
   WATER_MULTIPLIER_MAP,
   PROTEIN_COLOR_MAP,
   WATER_COLOR_MAP,
+  ITEM_MAP,
 };
