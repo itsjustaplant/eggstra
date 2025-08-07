@@ -1,7 +1,7 @@
 /** biome-ignore-all lint/a11y/useKeyWithClickEvents: <shut the fuck up> */
 
 import { PROTEIN_COLOR_MAP, WATER_COLOR_MAP } from "~/constants";
-import { AnalysisCard, Header } from "~/containers";
+import { AnalysisCard } from "~/containers";
 import { TEXTS } from "~/texts";
 import type { TDailyData } from "~/types";
 import { EAnalysisType } from "~/types";
@@ -76,8 +76,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 
   // TODO: bind KV and hold last edited date and show it next to card header
   return (
-    <div className="w-full flex flex-col max-w-[1440px] m-auto">
-      <Header />
+    <div className="w-full h-full flex flex-col max-w-7xl border-x-0 sm:border-x">
       <div className="p-4 flex gap-2 flex-wrap">
         <AnalysisCard
           data={proteinData.reverse()}

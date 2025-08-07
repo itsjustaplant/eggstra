@@ -58,7 +58,7 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
 						onChange={(e) => setValue(e?.target?.value)}
 					/>
 					<span>{selectedItem.label}</span>
-					<DialogClose className="ml-auto">
+					<DialogClose className="ml-auto" asChild>
 						<Button
 							disabled={!value}
 							onClick={() => {
