@@ -31,7 +31,7 @@ export default {
   async scheduled(_, env) {
     try {
       const { results } = await env.DB.prepare(
-        `SELECT * FROM DailyData ORDER BY Date DESC LIMIT 1`
+        `SELECT * FROM DailyData ORDER BY rowid DESC LIMIT 1`
       ).all<TDailyData>();
       const { protein, water } = results[0];
       const maintanenceProtein = WEIGHT * PROTEIN_MULTIPLIER_MAP.maintanence;
