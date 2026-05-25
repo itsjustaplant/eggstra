@@ -22,6 +22,7 @@ const TEXTS = {
 	],
 	"analytics-water-tooltip-label": "Water (mL)",
 	"analytics-water-unit": "L",
+	"toast-water": "yay! you just logged {water}mL of water, keep drinking!",
 	"analytics-carbs-title": "Weekly Carbs Analytics",
 	"analytics-carbs-description": "Showing daily carbs intake for last week.",
 	"analytics-carbs-summary": [
@@ -31,8 +32,8 @@ const TEXTS = {
 	],
 	"analytics-carbs-tooltip-label": "Carbs (g)",
 	"analytics-carbs-unit": "g",
-	"toast-water": "yay! you just logged {water}mL of water, keep drinking!",
-	"dialog-title": "Log your protein/water intake",
+	"toast-carbs": "yay! you just logged {carbs}g of carbs, keep it healthy!",
+	"dialog-title": "Log your protein/water/carbs intake",
 	"dialog-action": "Save",
 	"no-data": "NO DATA",
 	"email-success":

@@ -21,7 +21,8 @@ export type TItem = {
 	key: string;
 	label: string;
 	proteinMultiplier: number;
-	waterMultiplier?: number;
+	waterMultiplier: number;
+	carbsMultiplier: number;
 };
 
 export type TMultiplierMap = {

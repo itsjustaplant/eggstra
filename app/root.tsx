@@ -34,6 +34,7 @@ export async function action({ request, context }: Route.ActionArgs) {
 	const formData = await request.formData();
 	const protein = Number(formData.get("protein"));
 	const water = Number(formData.get("water"));
+	const carbs = Number(formData.get("carbs"));
 
 	try {
 		const { results } = await context.cloudflare.env.DB.prepare(
@@ -44,15 +45,20 @@ export async function action({ request, context }: Route.ActionArgs) {
 
 		if (results.length === 0) {
 			await context.cloudflare.env.DB.prepare(
-				`INSERT INTO DailyData(Date, protein, water) values(?, ?, ?)`,
+				`INSERT INTO DailyData(Date, protein, water, carbs) values(?, ?, ?, ?)`,
 			)
-				.bind(date, protein, water)
+				.bind(date, protein, water, carbs)
 				.all();
 		} else {
 			await context.cloudflare.env.DB.prepare(
-				`UPDATE DailyData SET protein = ?, water = ? WHERE Date = ?`,
+				`UPDATE DailyData SET protein = ?, water = ?, carbs = ? WHERE Date = ?`,
 			)
-				.bind(results[0].protein + protein, results[0].water + water, date)
+				.bind(
+					results[0].protein + protein,
+					results[0].water + water,
+					results[0].carbs + carbs,
+					date,
+				)
 				.run();
 		}
 

@@ -62,27 +62,26 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
 						<Button
 							disabled={!value}
 							onClick={() => {
-								const protein = (
-									Number(value) * selectedItem.proteinMultiplier
-								)?.toFixed(1);
-								const water =
-									Number(value) * (selectedItem?.waterMultiplier || 0);
+								const type = selectedItem.key;
+								const amount = Number(value);
+								const protein = type === "protein" ? amount : 0;
+								const water = type === "water" ? amount : 0;
+								const carbs = type === "carbs" ? amount : 0;
+								const toastText = (
+									TEXTS[`toast-${type}` as keyof typeof TEXTS] as string
+								).replace(`{${type}}`, value);
 								fetcher.submit(
 									{
 										protein,
 										water,
+										carbs,
 									},
 									{ method: "POST" },
 								);
 								toast(
 									<div className="flex gap-2 items-center">
 										<FontAwesomeIcon size="2xl" icon={selectedItem.icon} />
-										{water
-											? TEXTS["toast-water"].replace(
-													"{water}",
-													water.toString(),
-												)
-											: TEXTS["toast-protein"].replace("{protein}", protein)}
+										{toastText}
 									</div>,
 								);
 							}}
