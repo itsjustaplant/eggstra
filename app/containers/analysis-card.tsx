@@ -85,7 +85,8 @@ function AnalysisCard(props: TAnalysisCardProps) {
 											textAnchor="middle"
 											dy={-6}
 										>
-											{type === EAnalysisType.PROTEIN
+											{type === EAnalysisType.PROTEIN ||
+											type === EAnalysisType.CARBS
 												? `${value?.toFixed()}${unit}`
 												: `${(value / 1000)?.toFixed(1)}${unit}`}
 										</text>
