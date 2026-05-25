@@ -1,42 +1,83 @@
 import {
-  PROTEIN_COLOR_MAP,
-  PROTEIN_MULTIPLIER_MAP,
-  WATER_COLOR_MAP,
-  WATER_MULTIPLIER_MAP,
-  WEIGHT,
+	CARBS_COLOR_MAP,
+	CARBS_MULTIPLIER_MAP,
+	PROTEIN_COLOR_MAP,
+	PROTEIN_MULTIPLIER_MAP,
+	WATER_COLOR_MAP,
+	WATER_MULTIPLIER_MAP,
+	WEIGHT,
 } from "./constants";
+import { TEXTS } from "./texts";
+import { EAnalysisType, type TColorMap } from "./types";
 
-function getColorForProtein(intake: number): string {
-  if (intake > WEIGHT * PROTEIN_MULTIPLIER_MAP.gain)
-    return PROTEIN_COLOR_MAP.gain;
-  if (intake >= WEIGHT * PROTEIN_MULTIPLIER_MAP.maintanence)
-    return PROTEIN_COLOR_MAP.maintanence;
-  if (intake >= WEIGHT * PROTEIN_MULTIPLIER_MAP.minimum)
-    return PROTEIN_COLOR_MAP.minimum;
-  return PROTEIN_COLOR_MAP.default;
+function getColor(intake: number, analysisType: EAnalysisType): string {
+	const colorMap = getColorMap(analysisType);
+	const multiplierMap =
+		analysisType === EAnalysisType.PROTEIN
+			? PROTEIN_MULTIPLIER_MAP
+			: analysisType === EAnalysisType.WATER
+				? WATER_MULTIPLIER_MAP
+				: CARBS_MULTIPLIER_MAP;
+	if (intake > WEIGHT * multiplierMap.gain) return colorMap.gain;
+	if (intake >= WEIGHT * multiplierMap.maintanence) return colorMap.maintanence;
+	if (intake >= WEIGHT * multiplierMap.minimum) return colorMap.minimum;
+	return colorMap.default;
 }
 
-function getColorForWater(intake: number): string {
-  if (intake > WEIGHT * WATER_MULTIPLIER_MAP.gain) return WATER_COLOR_MAP.gain;
-  if (intake >= WEIGHT * WATER_MULTIPLIER_MAP.maintanence)
-    return WATER_COLOR_MAP.maintanence;
-  if (intake >= WEIGHT * WATER_MULTIPLIER_MAP.minimum)
-    return WATER_COLOR_MAP.minimum;
-  return WATER_COLOR_MAP.default;
+function getColorMap(analysisType: EAnalysisType): TColorMap {
+	const colorMap =
+		analysisType === EAnalysisType.PROTEIN
+			? PROTEIN_COLOR_MAP
+			: analysisType === EAnalysisType.WATER
+				? WATER_COLOR_MAP
+				: CARBS_COLOR_MAP;
+
+	return colorMap;
+}
+
+function getAnalysisCardTexts(
+	analysisType: EAnalysisType,
+): Record<string, string> {
+	switch (analysisType) {
+		case EAnalysisType.PROTEIN:
+			return {
+				title: TEXTS["analytics-protein-title"],
+				description: TEXTS["analytics-protein-description"],
+				unit: TEXTS["analytics-protein-unit"],
+			};
+		case EAnalysisType.WATER:
+			return {
+				title: TEXTS["analytics-water-title"],
+				description: TEXTS["analytics-water-description"],
+				unit: TEXTS["analytics-water-unit"],
+			};
+		default:
+			return {
+				title: TEXTS["analytics-carbs-title"],
+				description: TEXTS["analytics-carbs-description"],
+				unit: TEXTS["analytics-carbs-unit"],
+			};
+	}
 }
 
 function getDate() {
-  const date = new Date();
-  const formattedDate = date.toLocaleString("en-US", {
-    timeZone: "Europe/Istanbul",
-  });
-  const [dateString] = formattedDate.split(",");
-  const [month, day, year] = dateString.split("/");
-  return `${year}-${month}-${day}`;
+	const date = new Date();
+	const formattedDate = date.toLocaleString("en-US", {
+		timeZone: "Europe/Istanbul",
+	});
+	const [dateString] = formattedDate.split(",");
+	const [month, day, year] = dateString.split("/");
+	return `${year}-${month}-${day}`;
 }
 
 function capitalizeFirstLetter(str: string) {
-  return str[0].toUpperCase() + str.slice(1);
+	return str[0].toUpperCase() + str.slice(1);
 }
 
-export { getColorForProtein, getColorForWater, getDate, capitalizeFirstLetter };
+export {
+	getDate,
+	capitalizeFirstLetter,
+	getColor,
+	getColorMap,
+	getAnalysisCardTexts,
+};
