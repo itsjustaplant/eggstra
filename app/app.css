@@ -52,11 +52,9 @@
   body {
     @apply bg-background text-foreground;
     width: 100vw;
-    height: 100vh;
     font-optical-sizing: auto;
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
-    overflow-x: hidden;
     font-display: swap;
     display: flex;
     flex-direction: column;
