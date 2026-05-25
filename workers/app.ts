@@ -1,61 +1,64 @@
 import { createRequestHandler } from "react-router";
 import {
-  PROTEIN_MULTIPLIER_MAP,
-  WATER_MULTIPLIER_MAP,
-  WEIGHT,
+	CARBS_MULTIPLIER_MAP,
+	PROTEIN_MULTIPLIER_MAP,
+	WATER_MULTIPLIER_MAP,
+	WEIGHT,
 } from "~/constants";
 import { TEXTS } from "~/texts";
 import type { TDailyData } from "~/types";
 
 declare module "react-router" {
-  export interface AppLoadContext {
-    cloudflare: {
-      env: Env;
-      ctx: ExecutionContext;
-    };
-  }
+	export interface AppLoadContext {
+		cloudflare: {
+			env: Env;
+			ctx: ExecutionContext;
+		};
+	}
 }
 
 const requestHandler = createRequestHandler(
-  () => import("virtual:react-router/server-build"),
-  import.meta.env.MODE
+	() => import("virtual:react-router/server-build"),
+	import.meta.env.MODE,
 );
 
 export default {
-  fetch(request, env, ctx) {
-    return requestHandler(request, {
-      cloudflare: { env, ctx },
-    });
-  },
+	fetch(request, env, ctx) {
+		return requestHandler(request, {
+			cloudflare: { env, ctx },
+		});
+	},
 
-  async scheduled(_, env) {
-    try {
-      const { results } = await env.DB.prepare(
-        `SELECT * FROM DailyData ORDER BY rowid DESC LIMIT 1`
-      ).all<TDailyData>();
-      const { protein, water } = results[0];
-      const maintanenceProtein = WEIGHT * PROTEIN_MULTIPLIER_MAP.maintanence;
-      const maintanenceWater = WEIGHT * WATER_MULTIPLIER_MAP.maintanence;
-      const proteinDiff = protein - maintanenceProtein;
-      const waterDiff = water - maintanenceWater;
+	async scheduled(_, env) {
+		try {
+			const { results } = await env.DB.prepare(
+				`SELECT * FROM DailyData ORDER BY rowid DESC LIMIT 1`,
+			).all<TDailyData>();
+			const { protein, water, carbs } = results[0];
+			const maintanenceProtein = WEIGHT * PROTEIN_MULTIPLIER_MAP.maintanence;
+			const maintanenceWater = WEIGHT * WATER_MULTIPLIER_MAP.maintanence;
+			const maintanenceCarbs = WEIGHT * CARBS_MULTIPLIER_MAP.maintanence;
+			const proteinDiff = protein - maintanenceProtein;
+			const waterDiff = water - maintanenceWater;
+			const carbsDiff = carbs - maintanenceCarbs;
 
-      let text = TEXTS["email-failure"];
+			let text = TEXTS["email-failure"];
 
-      if (proteinDiff >= 0 && waterDiff >= 0) {
-        text = TEXTS["email-success"];
-      }
+			if (proteinDiff >= 0 && waterDiff >= 0 && carbsDiff >= 0) {
+				text = TEXTS["email-success"];
+			}
 
-      const response = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${env.RESEND_API_KEY}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          from: "noreply@justaplant.dev",
-          to: "alperensahin442@gmail.com",
-          subject: `Eggstra daily reminder`,
-          html: `
+			const response = await fetch("https://api.resend.com/emails", {
+				method: "POST",
+				headers: {
+					Authorization: `Bearer ${env.RESEND_API_KEY}`,
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					from: "noreply@justaplant.dev",
+					to: "alperensahin442@gmail.com",
+					subject: `Eggstra daily reminder`,
+					html: `
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
             <html dir="ltr" lang="en">
               <head>
@@ -92,7 +95,7 @@ export default {
                                 </div>
                                 <p
                                   style="color:rgb(31,41,55);font-size:20px;line-height:28px;font-weight:500;margin:0px;margin-bottom:0px;margin-top:0px;margin-left:0px;margin-right:0px">
-                                  <!-- -->${text.replace("{protein}", `${protein}`).replace("{water}", `${water}`)}<!-- -->
+                                  <!-- -->${text.replace("{protein}", `${protein}`).replace("{water}", `${water}`).replace("{carbs}", `${carbs}`)}<!-- -->
                                 </p>
                               </td>
                             </tr>
@@ -106,16 +109,16 @@ export default {
               </body>
             </html>
           `,
-        }),
-      });
-      if (!response.ok) {
-        const error = await response.text();
-        console.error("Failed to send email:", error);
-      } else {
-        console.log("Email sent successfully 🎉");
-      }
-    } catch (e) {
-      console.log(e);
-    }
-  },
+				}),
+			});
+			if (!response.ok) {
+				const error = await response.text();
+				console.error("Failed to send email:", error);
+			} else {
+				console.log("Email sent successfully 🎉");
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	},
 } satisfies ExportedHandler<Env>;

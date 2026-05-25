@@ -37,9 +37,9 @@ const TEXTS = {
 	"dialog-action": "Save",
 	"no-data": "NO DATA",
 	"email-success":
-		"Good job! You took {protein}g of protein and {water}mL of water.",
+		"Good job! You took {protein}g of protein, {water}mL of water and {carbs}g of carbs.",
 	"email-failure":
-		"You took {protein}g of protein and {water}mL but that's not enough!",
+		"You took {protein}g of protein, {water}mL and {carbs}g of carbs but that's not enough!",
 };
 
 export { TEXTS };
