@@ -16,6 +16,7 @@ import { Header } from "./containers";
 import { getDate } from "./utils";
 
 export const links: Route.LinksFunction = () => [
+	{ rel: "icon", href: "/favicon-v1.ico" },
 	{ rel: "apple-touch-icon", href: "/apple-touch-icon.png" },
 	{
 		rel: "apple-touch-icon",
