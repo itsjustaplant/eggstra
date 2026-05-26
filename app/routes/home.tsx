@@ -43,6 +43,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 		date: result.date,
 		value: result.carbs,
 	}));
+	const caloriesData = results?.map((result) => ({
+		date: result.date,
+		value: result.calories,
+	}));
 
 	// TODO: bind KV and hold last edited date and show it next to card header
 	return (
@@ -54,6 +58,10 @@ export default function Home({ loaderData }: Route.ComponentProps) {
 				/>
 				<AnalysisCard data={waterData.reverse()} type={EAnalysisType.WATER} />
 				<AnalysisCard data={carbsData.reverse()} type={EAnalysisType.CARBS} />
+				<AnalysisCard
+					data={caloriesData.reverse()}
+					type={EAnalysisType.CALORIES}
+				/>
 			</div>
 		</div>
 	);

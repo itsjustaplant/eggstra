@@ -5,14 +5,16 @@ export type TDailyData = {
 	protein: number;
 	water: number;
 	carbs: number;
+	calories: number;
 };
 
 export type TLevel = "gain" | "maintanence" | "minimum" | "default";
 
 export enum EAnalysisType {
-	PROTEIN,
-	WATER,
-	CARBS,
+	PROTEIN = "protein",
+	WATER = "water",
+	CARBS = "carbs",
+	CALORIES = "calories",
 }
 
 export type TItem = {
@@ -23,6 +25,7 @@ export type TItem = {
 	proteinMultiplier: number;
 	waterMultiplier: number;
 	carbsMultiplier: number;
+	caloriesMultiplier: number;
 };
 
 export type TMultiplierMap = {

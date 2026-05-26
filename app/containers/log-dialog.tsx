@@ -67,6 +67,8 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
 								const protein = type === "protein" ? amount : 0;
 								const water = type === "water" ? amount : 0;
 								const carbs = type === "carbs" ? amount : 0;
+								const calories = type === "calories" ? amount : 0;
+
 								const toastText = (
 									TEXTS[`toast-${type}` as keyof typeof TEXTS] as string
 								).replace(`{${type}}`, value);
@@ -75,6 +77,7 @@ function LogDialog(props: React.PropsWithChildren<unknown>) {
 										protein,
 										water,
 										carbs,
+										calories,
 									},
 									{ method: "POST" },
 								);

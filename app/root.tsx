@@ -77,6 +77,7 @@ export async function action({ request, context }: Route.ActionArgs) {
 	const protein = Number(formData.get("protein"));
 	const water = Number(formData.get("water"));
 	const carbs = Number(formData.get("carbs"));
+	const calories = Number(formData.get("calories"));
 
 	try {
 		const { results } = await context.cloudflare.env.DB.prepare(
@@ -87,9 +88,9 @@ export async function action({ request, context }: Route.ActionArgs) {
 
 		if (results.length === 0) {
 			await context.cloudflare.env.DB.prepare(
-				`INSERT INTO DailyData(Date, protein, water, carbs) values(?, ?, ?, ?)`,
+				`INSERT INTO DailyData(Date, protein, water, carbs, calories) values(?, ?, ?, ?, ?)`,
 			)
-				.bind(date, protein, water, carbs)
+				.bind(date, protein, water, carbs, calories)
 				.all();
 		} else {
 			await context.cloudflare.env.DB.prepare(
@@ -99,6 +100,7 @@ export async function action({ request, context }: Route.ActionArgs) {
 					results[0].protein + protein,
 					results[0].water + water,
 					results[0].carbs + carbs,
+					results[0].calories + calories,
 					date,
 				)
 				.run();

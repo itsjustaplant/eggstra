@@ -1,23 +1,13 @@
-import {
-	CARBS_COLOR_MAP,
-	CARBS_MULTIPLIER_MAP,
-	PROTEIN_COLOR_MAP,
-	PROTEIN_MULTIPLIER_MAP,
-	WATER_COLOR_MAP,
-	WATER_MULTIPLIER_MAP,
-	WEIGHT,
-} from "./constants";
+import { COLOR_MAP, MULTIPLIER_MAP, WEIGHT } from "./constants";
 import { TEXTS } from "./texts";
 import { EAnalysisType, type TColorMap } from "./types";
 
 function getColor(intake: number, analysisType: EAnalysisType): string {
 	const colorMap = getColorMap(analysisType);
-	const multiplierMap =
-		analysisType === EAnalysisType.PROTEIN
-			? PROTEIN_MULTIPLIER_MAP
-			: analysisType === EAnalysisType.WATER
-				? WATER_MULTIPLIER_MAP
-				: CARBS_MULTIPLIER_MAP;
+	const multiplierMap = MULTIPLIER_MAP[analysisType];
+	if (analysisType === EAnalysisType.CALORIES) {
+		console.log(intake);
+	}
 	if (intake > WEIGHT * multiplierMap.gain) return colorMap.gain;
 	if (intake >= WEIGHT * multiplierMap.maintanence) return colorMap.maintanence;
 	if (intake >= WEIGHT * multiplierMap.minimum) return colorMap.minimum;
@@ -25,39 +15,17 @@ function getColor(intake: number, analysisType: EAnalysisType): string {
 }
 
 function getColorMap(analysisType: EAnalysisType): TColorMap {
-	const colorMap =
-		analysisType === EAnalysisType.PROTEIN
-			? PROTEIN_COLOR_MAP
-			: analysisType === EAnalysisType.WATER
-				? WATER_COLOR_MAP
-				: CARBS_COLOR_MAP;
-
-	return colorMap;
+	return COLOR_MAP[analysisType];
 }
 
 function getAnalysisCardTexts(
 	analysisType: EAnalysisType,
 ): Record<string, string> {
-	switch (analysisType) {
-		case EAnalysisType.PROTEIN:
-			return {
-				title: TEXTS["analytics-protein-title"],
-				description: TEXTS["analytics-protein-description"],
-				unit: TEXTS["analytics-protein-unit"],
-			};
-		case EAnalysisType.WATER:
-			return {
-				title: TEXTS["analytics-water-title"],
-				description: TEXTS["analytics-water-description"],
-				unit: TEXTS["analytics-water-unit"],
-			};
-		default:
-			return {
-				title: TEXTS["analytics-carbs-title"],
-				description: TEXTS["analytics-carbs-description"],
-				unit: TEXTS["analytics-carbs-unit"],
-			};
-	}
+	return {
+		title: TEXTS[`analytics-${analysisType}-title`],
+		description: TEXTS[`analytics-${analysisType}-description`],
+		unit: TEXTS[`analytics-${analysisType}-unit`],
+	};
 }
 
 function getDate() {
