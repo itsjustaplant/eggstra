@@ -94,7 +94,7 @@ export async function action({ request, context }: Route.ActionArgs) {
 				.all();
 		} else {
 			await context.cloudflare.env.DB.prepare(
-				`UPDATE DailyData SET protein = ?, water = ?, carbs = ? WHERE Date = ?`,
+				`UPDATE DailyData SET protein = ?, water = ?, carbs = ?, calories = ? WHERE Date = ?`,
 			)
 				.bind(
 					results[0].protein + protein,
