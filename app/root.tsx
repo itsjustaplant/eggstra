@@ -124,7 +124,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
 			<body className="dark">
 				<Header />
 				{children}
-				<Toaster position="top-center" />
+				<Toaster position="bottom-center" />
 				<ScrollRestoration />
 				<Scripts />
 			</body>
