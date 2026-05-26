@@ -22,7 +22,6 @@ export async function loader({ context }: Route.LoaderArgs) {
 		const { results } = await context.cloudflare.env.DB.prepare(
 			`SELECT * FROM DailyData ORDER BY rowid DESC LIMIT 7`,
 		).all<TDailyData>();
-		console.log(results);
 		return { results };
 	} catch (e) {
 		console.log(e);
