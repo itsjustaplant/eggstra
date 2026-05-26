@@ -22,10 +22,6 @@ export type TItem = {
 	text: string;
 	key: string;
 	label: string;
-	proteinMultiplier: number;
-	waterMultiplier: number;
-	carbsMultiplier: number;
-	caloriesMultiplier: number;
 };
 
 export type TMultiplierMap = {
